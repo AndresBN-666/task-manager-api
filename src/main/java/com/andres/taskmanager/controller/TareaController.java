@@ -3,6 +3,7 @@ package com.andres.taskmanager.controller;
 import com.andres.taskmanager.dto.TareaDTO;
 import com.andres.taskmanager.entity.TareaEntity;
 import com.andres.taskmanager.service.TareaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class TareaController {
     private TareaService tareaService;
 
     @PostMapping
-    public TareaEntity crear(@RequestBody TareaDTO tareaDTO){
+    public TareaEntity crear(@RequestBody @Valid TareaDTO tareaDTO){
         return tareaService.crearTarea(tareaDTO);
     }
 
@@ -27,7 +28,7 @@ public class TareaController {
 
     @PutMapping("/{id}")
     public TareaEntity actualizarTarea(@PathVariable Long id,
-                                       @RequestBody TareaDTO tareaDTO){
+                                       @RequestBody @Valid TareaDTO tareaDTO){
         return tareaService.actualizarTarea(id, tareaDTO);
     }
 

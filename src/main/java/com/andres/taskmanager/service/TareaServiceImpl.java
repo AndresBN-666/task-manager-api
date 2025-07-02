@@ -2,6 +2,7 @@ package com.andres.taskmanager.service;
 
 import com.andres.taskmanager.dto.TareaDTO;
 import com.andres.taskmanager.entity.TareaEntity;
+import com.andres.taskmanager.exception.RecursoNoEncontradoException;
 import com.andres.taskmanager.repository.TareaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class TareaServiceImpl implements TareaService{
     @Override
     public TareaEntity actualizarTarea(Long id, TareaDTO tareaDTO) {
         TareaEntity tarea = tareaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Tarea no encontrada"));
         tarea.setTitulo(tareaDTO.getTitulo());
         tarea.setDescripcion(tareaDTO.getDescripcion());
         return tareaRepository.save(tarea);
@@ -39,6 +40,8 @@ public class TareaServiceImpl implements TareaService{
 
     @Override
     public void eliminarTarea(Long id) {
+        TareaEntity tarea = tareaRepository.findById(id)
+                        .orElseThrow(() -> new RecursoNoEncontradoException("Tarea no encontrada"));
         tareaRepository.deleteById(id);
 
     }
